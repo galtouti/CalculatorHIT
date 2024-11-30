@@ -30,26 +30,38 @@ public class MainActivity extends AppCompatActivity {
         });
 
         result = findViewById(R.id.textViewResult);
-        result.setText("");
+        result.setText("0");
     }
 
     // פונקציה ללחיצה על מספרים
     public void numFunc(View view) {
         Button button = (Button) view;
-        result.append(button.getText().toString());
+        if (result.getText().toString().equals("0")) {
+            result.setText(button.getText().toString()); // מחליף את 0 במספר שנלחץ
+        } else {
+            result.append(button.getText().toString());
+        }
     }
+
 
     // פונקציה ללחיצה על אופרטורים
     public void funcCh(View view) {
         Button button = (Button) view;
         operator = button.getText().toString(); // שומר את האופרטור
         num1 = Double.parseDouble(result.getText().toString()); // שומר את המספר הראשון
-        result.setText(""); // מנקה את המסך לקליטת המספר השני
+        result.append(" " + operator + " "); // מוסיף את האופרטור לטקסט הקיים
     }
 
     // פונקציה לחישוב התוצאה
     public void calculate(View view) {
-        num2 = Double.parseDouble(result.getText().toString()); // שומר את המספר השני
+        try {
+            String[] parts = result.getText().toString().split(" "); // מפריד בין המספרים לאופרטור
+            num1 = Double.parseDouble(parts[0]); // המספר הראשון
+            num2 = Double.parseDouble(parts[2]); // המספר השני
+        } catch (Exception e) {
+            result.setText("Error");
+            return;
+        }
 
         double resultValue = 0;
 
@@ -67,18 +79,20 @@ public class MainActivity extends AppCompatActivity {
                 if (num2 != 0) {
                     resultValue = num1 / num2;
                 } else {
-                    result.setText("Error"); // טיפול בחלוקה באפס
+                    result.setText("NOOOOOOOOO DIVIDE 0"); // טיפול בחלוקה באפס
                     return;
                 }
                 break;
         }
 
         result.setText(String.valueOf(resultValue)); // מציג את התוצאה
+        num1 = resultValue; // מאתחל את המספר הראשון כדי להמשיך בחישוב חדש
+        operator = ""; // מאתחל את האופרטור
     }
 
     // פונקציה לאיפוס כל הנתונים (לחיצה על AC)
     public void resetCalculator(View view) {
-        result.setText("");
+        result.setText("0");
         num1 = 0;
         num2 = 0;
         operator = "";
