@@ -85,7 +85,13 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
 
-        result.setText(String.valueOf(resultValue)); // מציג את התוצאה
+
+        if (resultValue % 1 == 0){
+            result.setText(String.valueOf( (int) resultValue)); // מציג את התוצאה
+        }
+        else{
+            result.setText(String.valueOf(resultValue));
+        }
         num1 = resultValue; // מאתחל את המספר הראשון כדי להמשיך בחישוב חדש
         operator = ""; // מאתחל את האופרטור
     }
